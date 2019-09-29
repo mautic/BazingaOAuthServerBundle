@@ -22,7 +22,7 @@ abstract class Token implements TokenInterface
     protected $secret;
 
     /**
-     * @var int
+     * @var integer
      */
     protected $expiresAt;
 

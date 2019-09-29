@@ -39,13 +39,13 @@ interface TokenInterface
 
     /**
      * Returns the expiration time.
-     * @return int
+     * @return integer
      */
     public function getExpiresAt();
 
     /**
      * Set expiresAt
-     * @param int $expiresAt
+     * @param integer $expiresAt
      * @return self
      */
     public function setExpiresAt($expiresAt);
