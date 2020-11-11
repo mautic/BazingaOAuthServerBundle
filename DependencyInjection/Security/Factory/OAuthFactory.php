@@ -5,7 +5,7 @@ namespace Bazinga\OAuthServerBundle\DependencyInjection\Security\Factory;
 use Symfony\Bundle\SecurityBundle\DependencyInjection\Security\Factory\SecurityFactoryInterface;
 use Symfony\Component\Config\Definition\Builder\NodeDefinition;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
-use Symfony\Component\DependencyInjection\DefinitionDecorator;
+use Symfony\Component\DependencyInjection\ChildDefinition;
 use Symfony\Component\DependencyInjection\Reference;
 
 /**
@@ -20,12 +20,12 @@ class OAuthFactory implements SecurityFactoryInterface
     {
         $providerId = 'security.authentication.provider.bazinga_oauth.'.$id;
         $container
-            ->setDefinition($providerId, new DefinitionDecorator('bazinga.oauth.security.authentication.provider'))
+            ->setDefinition($providerId, new ChildDefinition('bazinga.oauth.security.authentication.provider'))
             ->replaceArgument(0, new Reference($userProvider))
             ;
 
         $listenerId = 'security.authentication.listener.bazinga_oauth.'.$id;
-        $listener   = $container->setDefinition($listenerId, new DefinitionDecorator('bazinga.oauth.security.authentication.listener'));
+        $listener   = $container->setDefinition($listenerId, new ChildDefinition('bazinga.oauth.security.authentication.listener'));
 
         return array($providerId, $listenerId, $defaultEntryPoint);
     }
