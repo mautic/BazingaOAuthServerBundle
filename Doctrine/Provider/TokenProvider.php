@@ -4,8 +4,7 @@ namespace Bazinga\OAuthServerBundle\Doctrine\Provider;
 
 use Bazinga\OAuthServerBundle\Model\Provider\TokenProvider as BaseTokenProvider;
 use Bazinga\OAuthServerBundle\Model\TokenInterface;
-use Doctrine\Common\Persistence\ObjectManager;
-use Doctrine\Common\Persistence\ObjectRepository;
+use Doctrine\ORM\EntityManager;
 
 /**
  * @author Robin van der Vleuten <robinvdvleuten@gmail.com>
@@ -23,23 +22,23 @@ class TokenProvider extends BaseTokenProvider
     private $accessTokenRepository;
 
     /**
-     * @var ObjectManager
+     * @var EntityManager
      */
-    private $objectManager;
+    private $entityManager;
 
     /**
      * Constructor
      *
-     * @param ObjectManager $objectManager A ObjectManager instance.
+     * @param EntityManager $entityManager An EntityManager instance.
      * @param string        $accessTokenClass
      * @param string        $requestTokenClass
      */
-    public function __construct(ObjectManager $objectManager, $requestTokenClass, $accessTokenClass)
+    public function __construct(EntityManager $entityManager, $requestTokenClass, $accessTokenClass)
     {
-        $this->objectManager = $objectManager;
+        $this->entityManager = $entityManager;
 
-        $this->requestTokenRepository = $objectManager->getRepository($requestTokenClass);
-        $this->accessTokenRepository = $objectManager->getRepository($accessTokenClass);
+        $this->requestTokenRepository = $entityManager->getRepository($requestTokenClass);
+        $this->accessTokenRepository = $entityManager->getRepository($accessTokenClass);
 
         parent::__construct($requestTokenClass, $accessTokenClass);
     }
@@ -81,8 +80,8 @@ class TokenProvider extends BaseTokenProvider
      */
     public function deleteToken(TokenInterface $token)
     {
-        $this->objectManager->remove($token);
-        $this->objectManager->flush();
+        $this->entityManager->remove($token);
+        $this->entityManager->flush();
     }
 
     /**
@@ -90,7 +89,7 @@ class TokenProvider extends BaseTokenProvider
      */
     public function updateToken(TokenInterface $token)
     {
-        $this->objectManager->persist($token);
-        $this->objectManager->flush();
+        $this->entityManager->persist($token);
+        $this->entityManager->flush();
     }
 }

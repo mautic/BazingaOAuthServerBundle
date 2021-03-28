@@ -17,7 +17,8 @@
         "symfony/security-bundle": "~4.4"
     },
     "require-dev": {
-        "doctrine/doctrine-bundle": "~1.12"
+        "doctrine/doctrine-bundle": "~1.12",
+        "symfony/orm-pack": "^2.1"
     },
     "autoload": {
         "psr-4": { "Bazinga\\OAuthServerBundle\\": "" }

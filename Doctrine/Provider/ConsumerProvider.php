@@ -4,8 +4,7 @@ namespace Bazinga\OAuthServerBundle\Doctrine\Provider;
 
 use Bazinga\OAuthServerBundle\Model\ConsumerInterface;
 use Bazinga\OAuthServerBundle\Model\Provider\ConsumerProvider as BaseConsumerProvider;
-use Doctrine\Common\Persistence\ObjectManager;
-use Doctrine\Common\Persistence\ObjectRepository;
+use Doctrine\ORM\EntityManager;
 
 /**
  * @author Robin van der Vleuten <robinvdvleuten@gmail.com>
@@ -13,9 +12,9 @@ use Doctrine\Common\Persistence\ObjectRepository;
 class ConsumerProvider extends BaseConsumerProvider
 {
     /**
-     * @var ObjectManager
+     * @var EntityManager
      */
-    private $objectManager;
+    private $entityManager;
 
     /**
      * ObjectRepository
@@ -25,14 +24,14 @@ class ConsumerProvider extends BaseConsumerProvider
     /**
      * Constructor
      *
-     * @param ObjectManager $objectManager A ObjectManager instance.
+     * @param EntityManager $entityManager An EntityManager instance.
      * @param string        $consumerClass
      */
-    public function __construct(ObjectManager $objectManager, $consumerClass)
+    public function __construct(EntityManager $entityManager, $consumerClass)
     {
-        $this->objectManager = $objectManager;
+        $this->entityManager = $entityManager;
 
-        $this->repository = $objectManager->getRepository($consumerClass);
+        $this->repository = $entityManager->getRepository($consumerClass);
 
         parent::__construct($consumerClass);
     }
@@ -50,8 +49,8 @@ class ConsumerProvider extends BaseConsumerProvider
      */
     public function deleteConsumer(ConsumerInterface $consumer)
     {
-        $this->objectManager->remove($consumer);
-        $this->objectManager->flush();
+        $this->entityManager->remove($consumer);
+        $this->entityManager->flush();
     }
 
     /**
@@ -59,7 +58,7 @@ class ConsumerProvider extends BaseConsumerProvider
      */
     public function updateConsumer(ConsumerInterface $consumer)
     {
-        $this->objectManager->persist($consumer);
-        $this->objectManager->flush();
+        $this->entityManager->persist($consumer);
+        $this->entityManager->flush();
     }
 }
